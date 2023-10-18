@@ -4,6 +4,10 @@ import com.acme.learning.platform.learning.domain.model.aggregates.Course;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+/**
+ * Represents a learning path item in the learning path of a course.
+ */
+
 @Entity
 public class LearningPathItem {
     @Id
@@ -11,29 +15,33 @@ public class LearningPathItem {
     @Getter
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "course_id")
     private Course course;
 
     @Getter
-    private Long nextItemId;
+    @ManyToOne
+    @JoinColumn(name = "next_item_id")
+    private LearningPathItem nextItem;
 
     @Getter
     @ManyToOne(optional = false)
+    @JoinColumn(name = "tutorial_id")
     private Tutorial tutorial;
 
-    public LearningPathItem(Course course, Tutorial tutorial, Long nextItemId) {
+    public LearningPathItem(Course course, Tutorial tutorial, LearningPathItem nextItem) {
         this.course = course;
         this.tutorial = tutorial;
-        this.nextItemId = nextItemId;
+        this.nextItem = nextItem;
     }
 
     public LearningPathItem() {
         this.tutorial = null;
-        this.nextItemId = null;
+        this.nextItem = null;
     }
 
-    public void updateNextItemId(Long nextItemId) {
-        this.nextItemId = nextItemId;
+    public void updateNextItem(LearningPathItem nextItem) {
+        this.nextItem = nextItem;
     }
 
 }

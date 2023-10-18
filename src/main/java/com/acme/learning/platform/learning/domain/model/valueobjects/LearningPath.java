@@ -19,14 +19,14 @@ public class LearningPath {
         this.learningPathItems = new ArrayList<>();
     }
 
-    public void addItem(Course course, Tutorial tutorial, Long nextItemId) {
+    public void addItem(Course course, Tutorial tutorial, LearningPathItem nextItemId) {
         LearningPathItem learningPathItem = new LearningPathItem(course, tutorial, nextItemId);
         this.learningPathItems.add(learningPathItem);
     }
 
     public void addItem(Course course, Tutorial tutorial) {
         int size = learningPathItems.size();
-        Long currentLastItemId = size > 0 ? learningPathItems.get(size - 1).getId() : null;
+        LearningPathItem currentLastItemId = size > 0 ? learningPathItems.get(size - 1).getId() : null;
         LearningPathItem learningPathItem = new LearningPathItem(course, tutorial, currentLastItemId);
         learningPathItems.add(learningPathItem);
     }
@@ -36,12 +36,12 @@ public class LearningPath {
     }
 
     public Tutorial getNextTutorialInLearningPath(Long currentTutorialId) {
-        Long itemId = getLearningPathItemWithTutorialId(currentTutorialId).getNextItemId();
+        Long itemId = getLearningPathItemWithTutorialId(currentTutorialId).getNextItem();
         return itemId != null ? getLearningPathItemWithId(itemId).getTutorial() : null;
     }
 
     public boolean isLastTutorialInLearningPath(Long currentTutorialId) {
-        return getLearningPathItemWithTutorialId(currentTutorialId).getNextItemId() == null;
+        return getLearningPathItemWithTutorialId(currentTutorialId).getNextItem() == null;
     }
     private LearningPathItem getLearningPathItemWithId(Long itemId) {
         return learningPathItems.stream()
