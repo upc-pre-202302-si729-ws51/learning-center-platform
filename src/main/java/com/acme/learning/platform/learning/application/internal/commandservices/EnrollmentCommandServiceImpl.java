@@ -1,4 +1,4 @@
-package com.acme.learning.platform.learning.application.internal;
+package com.acme.learning.platform.learning.application.internal.commandservices;
 
 import com.acme.learning.platform.learning.domain.exceptions.CourseNotFoundException;
 import com.acme.learning.platform.learning.domain.model.aggregates.Course;
