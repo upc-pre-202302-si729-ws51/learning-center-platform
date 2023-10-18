@@ -1,12 +1,11 @@
 package com.acme.learning.platform.learning.domain.model.entities;
 
+import com.acme.learning.platform.learning.domain.model.aggregates.Enrollment;
 import com.acme.learning.platform.learning.domain.model.valueobjects.ProgressStatus;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -16,10 +15,14 @@ public class ProgressRecordItem {
     private Long id;
 
     @Getter
-    private Long enrollmentId;
+    @ManyToOne
+    @JoinColumn(name = "enrollment_id")
+    private Enrollment enrollment;
 
     @Getter
-    private Long tutorialId;
+    @ManyToOne
+    @JoinColumn(name = "tutorial_id")
+    private Tutorial tutorial;
 
     private ProgressStatus status;
 
@@ -30,9 +33,9 @@ public class ProgressRecordItem {
     public ProgressRecordItem() {
     }
 
-    public ProgressRecordItem(Long enrollmentId, Long tutorialId) {
-        this.enrollmentId = enrollmentId;
-        this.tutorialId = tutorialId;
+    public ProgressRecordItem(Enrollment enrollment, Tutorial tutorial) {
+        this.enrollment = enrollment;
+        this.tutorial = tutorial;
         this.status = ProgressStatus.NOT_STARTED;
     }
 
@@ -52,5 +55,30 @@ public class ProgressRecordItem {
 
     public boolean isCompleted() {
         return this.status == ProgressStatus.COMPLETED;
+    }
+
+    public boolean isNotStarted() {
+        return this.status == ProgressStatus.NOT_STARTED;
+    }
+
+    /**
+     * Calculates the days elapsed since the item was started.
+     *
+     * @return zero if the item is not started. Otherwise, it returns the number of days elapsed between the started date and the completed date (if completed) or today.
+     */
+    public long calculateDaysElapsed() {
+
+        if (this.isNotStarted()) {
+            return 0;
+        }
+
+        var defaultTimeZone = java.time.ZoneId.systemDefault();
+        // Only started items are registered, so it should be the started date
+        var fromDate = this.startedAt.toInstant();
+        // If completed it should be the completed date, otherwise it should be today
+        var toDate = this.isCompleted() ? this.completedAt.toInstant() : LocalDate.now().atStartOfDay(defaultTimeZone).toInstant();
+
+        return java.time.Duration.between(fromDate, toDate).toDays();
+
     }
 }
