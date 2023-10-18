@@ -4,6 +4,11 @@ import com.acme.learning.platform.learning.domain.model.valueobjects.LearningPat
 import jakarta.persistence.*;
 import lombok.Getter;
 
+/**
+ *  Course aggregate
+ *  Represents a course in the system
+ *  Contains a learning path
+ */
 @Entity
 public class Course {
     @Id
