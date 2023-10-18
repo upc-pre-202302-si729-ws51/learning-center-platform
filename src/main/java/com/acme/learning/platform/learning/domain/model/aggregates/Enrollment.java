@@ -1,6 +1,7 @@
 package com.acme.learning.platform.learning.domain.model.aggregates;
 
 import com.acme.learning.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
+import com.acme.learning.platform.learning.domain.model.valueobjects.ProgressRecord;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -22,6 +23,49 @@ public class Enrollment extends AbstractAggregateRoot<Enrollment> {
 
     private EnrollmentStatus status;
 
-    // TODO: Add Progress Record
+    /**
+     * The progress record of the student in the course.
+     */
+    @Embedded
+    private ProgressRecord progressRecord;
+
+
+    public Enrollment() {
+
+    }
+
+    public Enrollment(AcmeStudentRecordId studentRecordId, Course course) {
+        this.acmeStudentRecordId = studentRecordId;
+        this.course = course;
+        this.status = EnrollmentStatus.REQUESTED;
+        this.progressRecord = new ProgressRecord();
+    }
+
+    public void confirm() {
+        this.status = EnrollmentStatus.CONFIRMED;
+        // this.registerEvent(new EnrollmentConfirmedEvent(this));
+    }
+
+    public void reject() {
+        this.status = EnrollmentStatus.REJECTED;
+        // this.registerEvent(new EnrollmentRejectedEvent(this));
+    }
+
+    public void cancel() {
+        this.status = EnrollmentStatus.CANCELLED;
+        // this.registerEvent(new EnrollmentCancelledEvent(this));
+    }
+
+    public long calculateDaysElapsed() {
+        return progressRecord.calculateDaysElapsedForEnrollment(this);
+    }
+
+    public boolean isConfirmed() {
+        return status == EnrollmentStatus.CONFIRMED;
+    }
+
+    public boolean isRejected() {
+        return status == EnrollmentStatus.REJECTED;
+    }
 
 }
