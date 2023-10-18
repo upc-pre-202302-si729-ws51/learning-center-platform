@@ -9,6 +9,11 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a learning path of tutorials in a course.
+ * A learning path is a linked list of tutorials.
+ *
+ */
 @Embeddable
 public class LearningPath {
 
@@ -19,25 +24,41 @@ public class LearningPath {
         this.learningPathItems = new ArrayList<>();
     }
 
-    public void addItem(Course course, Tutorial tutorial, LearningPathItem nextItemId) {
-        LearningPathItem learningPathItem = new LearningPathItem(course, tutorial, nextItemId);
+    /**
+     * Adds the item before the item with the given id
+     * @param course The course that owns the learning path
+     * @param tutorial The tutorial to add
+     * @param nextItem The id of the item before which the new item should be added
+     */
+    public void addItem(Course course, Tutorial tutorial, LearningPathItem nextItem) {
+        LearningPathItem learningPathItem = new LearningPathItem(course, tutorial, nextItem);
         this.learningPathItems.add(learningPathItem);
     }
 
+    /***
+     * Adds the item at the end of the learning path
+     * @param course The course that owns the learning path
+     * @param tutorial The tutorial to add
+     */
     public void addItem(Course course, Tutorial tutorial) {
-        int size = learningPathItems.size();
-        LearningPathItem currentLastItemId = size > 0 ? learningPathItems.get(size - 1).getId() : null;
-        LearningPathItem learningPathItem = new LearningPathItem(course, tutorial, currentLastItemId);
+        LearningPathItem originalLastItem = getLastItemInLearningPath();
+
+        LearningPathItem learningPathItem = new LearningPathItem(course, tutorial, null);
         learningPathItems.add(learningPathItem);
+        if (originalLastItem != null) originalLastItem.updateNextItem(learningPathItem);
     }
 
-    public Long getFirstTutorialInLearningPath() {
+    public Long getFirstTutorialIdInLearningPath() {
         return learningPathItems.get(0).getTutorial().getId();
     }
 
+    public Tutorial getFirstTutorialInLearningPath() {
+        return learningPathItems.get(0).getTutorial();
+    }
+
     public Tutorial getNextTutorialInLearningPath(Long currentTutorialId) {
-        Long itemId = getLearningPathItemWithTutorialId(currentTutorialId).getNextItem();
-        return itemId != null ? getLearningPathItemWithId(itemId).getTutorial() : null;
+        LearningPathItem item = getLearningPathItemWithTutorialId(currentTutorialId).getNextItem();
+        return item != null ? item.getTutorial() : null;
     }
 
     public boolean isLastTutorialInLearningPath(Long currentTutorialId) {
@@ -52,6 +73,11 @@ public class LearningPath {
     private LearningPathItem getLearningPathItemWithTutorialId(Long tutorialId) {
         return learningPathItems.stream()
                 .filter(learningPathItem -> learningPathItem.getTutorial().getId().equals(tutorialId))
+                .findFirst().orElse(null);
+    }
+
+    private LearningPathItem getLastItemInLearningPath() {
+        return learningPathItems.stream().filter(item -> item.getNextItem() == null)
                 .findFirst().orElse(null);
     }
 
