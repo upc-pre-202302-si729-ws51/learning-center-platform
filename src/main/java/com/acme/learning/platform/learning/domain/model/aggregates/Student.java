@@ -2,7 +2,7 @@ package com.acme.learning.platform.learning.domain.model.aggregates;
 
 import com.acme.learning.platform.learning.domain.model.valueobjects.AcmeStudentRecordId;
 import com.acme.learning.platform.learning.domain.model.valueobjects.ProfileId;
-import com.acme.learning.platform.learning.domain.model.valueobjects.StudentPerformanceMetrics;
+import com.acme.learning.platform.learning.domain.model.valueobjects.StudentPerformanceMetricSet;
 import com.acme.learning.platform.shared.domain.model.entities.AuditableModel;
 import jakarta.persistence.*;
 
@@ -20,11 +20,11 @@ public class Student extends AuditableModel {
     private ProfileId profileId;
 
     @Embedded
-    private StudentPerformanceMetrics performanceMetrics;
+    private StudentPerformanceMetricSet performanceMetrics;
 
     public Student() {
         this.acmeStudentId = new AcmeStudentRecordId();
-        this.performanceMetrics = new StudentPerformanceMetrics();
+        this.performanceMetrics = new StudentPerformanceMetricSet();
     }
 
     public Student(Long profileId) {

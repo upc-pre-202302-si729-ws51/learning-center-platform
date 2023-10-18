@@ -1,22 +1,22 @@
 package com.acme.learning.platform.learning.domain.model.valueobjects;
 
-public record StudentPerformanceMetrics(
+public record StudentPerformanceMetricSet(
         Integer totalCompletedCourses,
         Integer totalTutorials
 ) {
-    public StudentPerformanceMetrics() {
+    public StudentPerformanceMetricSet() {
         this(0, 0);
     }
 
-    public StudentPerformanceMetrics incrementTotalCompletedCourses() {
-        return new StudentPerformanceMetrics(totalCompletedCourses + 1, totalTutorials);
+    public StudentPerformanceMetricSet incrementTotalCompletedCourses() {
+        return new StudentPerformanceMetricSet(totalCompletedCourses + 1, totalTutorials);
     }
 
-    public StudentPerformanceMetrics incrementTotalTutorials() {
-        return new StudentPerformanceMetrics(totalCompletedCourses, totalTutorials + 1);
+    public StudentPerformanceMetricSet incrementTotalTutorials() {
+        return new StudentPerformanceMetricSet(totalCompletedCourses, totalTutorials + 1);
     }
 
-    public StudentPerformanceMetrics {
+    public StudentPerformanceMetricSet {
         if (totalCompletedCourses < 0) {
             throw new IllegalArgumentException("Total completed courses cannot be negative");
         }
