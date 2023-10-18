@@ -1,5 +1,6 @@
-package com.acme.learning.platform.learning.domain.model.entities;
+package com.acme.learning.platform.learning.domain.model.aggregates;
 
+import com.acme.learning.platform.learning.domain.model.valueobjects.LearningPath;
 import jakarta.persistence.*;
 import lombok.Getter;
 

@@ -1,5 +1,6 @@
 package com.acme.learning.platform.learning.domain.model.entities;
 
+import com.acme.learning.platform.learning.domain.model.valueobjects.ProgressStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
