@@ -14,7 +14,7 @@ public class Student extends AuditableModel {
 
     @Embedded
     @Column(name = "acme_student_id")
-    private AcmeStudentRecordId acmeStudentId;
+    private AcmeStudentRecordId acmeStudentRecordId;
 
     @Embedded
     private ProfileId profileId;
@@ -23,7 +23,7 @@ public class Student extends AuditableModel {
     private StudentPerformanceMetricSet performanceMetrics;
 
     public Student() {
-        this.acmeStudentId = new AcmeStudentRecordId();
+        this.acmeStudentRecordId = new AcmeStudentRecordId();
         this.performanceMetrics = new StudentPerformanceMetricSet();
     }
 
@@ -41,7 +41,7 @@ public class Student extends AuditableModel {
     }
 
     public String getStudentRecordId() {
-        return this.acmeStudentId.studentRecordId();
+        return this.acmeStudentRecordId.studentRecordId();
     }
 
     public Long getProfileId() {
