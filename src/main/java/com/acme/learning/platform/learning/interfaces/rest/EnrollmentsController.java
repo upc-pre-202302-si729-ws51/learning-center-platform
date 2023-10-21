@@ -27,14 +27,10 @@ public class EnrollmentsController {
     public ResponseEntity<EnrollmentResource> requestEnrollment(@RequestBody RequestEnrollmentResource resource) {
         var command = RequestEnrollmentCommandFromResourceAssembler.toCommandFromResource(resource);
         var enrollmentId = enrollmentCommandService.handle(command);
-        if (enrollmentId == 0L) {
-            return ResponseEntity.badRequest().build();
-        }
+        if (enrollmentId == 0L) return ResponseEntity.badRequest().build();
         var getEnrollmentByIdQuery = new GetEnrollmentByIdQuery(enrollmentId);
         var enrollment = enrollmentQueryService.handle(getEnrollmentByIdQuery);
-        if (enrollment.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
+        if (enrollment.isEmpty()) return ResponseEntity.badRequest().build();
         var enrollmentResource = EnrollmentResourceFromEntityAssembler.toResourceFromEntity(enrollment.get());
         return new ResponseEntity<>(enrollmentResource, HttpStatus.CREATED);
     }
