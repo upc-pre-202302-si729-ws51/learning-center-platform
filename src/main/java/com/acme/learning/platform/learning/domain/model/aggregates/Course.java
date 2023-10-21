@@ -12,6 +12,7 @@ import lombok.Getter;
  */
 @Entity
 public class Course extends AuditableModel {
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

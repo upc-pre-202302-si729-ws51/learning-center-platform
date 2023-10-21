@@ -25,6 +25,7 @@ public class Enrollment extends AbstractAggregateRoot<Enrollment> {
     @JoinColumn(name = "course_id")
     private Course course;
 
+    @Getter
     @Embedded
     private AcmeStudentRecordId acmeStudentRecordId;
 
@@ -66,6 +67,10 @@ public class Enrollment extends AbstractAggregateRoot<Enrollment> {
     public void cancel() {
         this.status = EnrollmentStatus.CANCELLED;
         // this.registerEvent(new EnrollmentCancelledEvent(this));
+    }
+
+    public String getStatus() {
+        return status.name().toLowerCase();
     }
 
     public long calculateDaysElapsed() {
