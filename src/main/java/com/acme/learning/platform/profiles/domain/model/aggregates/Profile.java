@@ -35,9 +35,9 @@ public class Profile extends AbstractAggregateRoot<Profile> {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Profile(String firstName, String lastName, String email, String streetAddress, String city, String zipCode, String country) {
+    public Profile(String firstName, String lastName, String email, String street, String number, String city, String zipCode, String country) {
         this.name = new PersonName(firstName, lastName);
-        this.address = new StreetAddress(streetAddress, city, zipCode, country);
+        this.address = new StreetAddress(street, number, city, zipCode, country);
         this.email = new EmailAddress(email);
     }
 
