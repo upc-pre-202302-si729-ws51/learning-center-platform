@@ -1,4 +1,4 @@
-package com.acme.learning.platform.learning.infrastructure.repositories;
+package com.acme.learning.platform.learning.infrastructure.persistence.jpa.repositories;
 
 import com.acme.learning.platform.learning.domain.model.aggregates.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
