@@ -66,5 +66,7 @@ public class Profile extends AbstractAggregateRoot<Profile> {
     }
 
 
-
+    public String getEmailAddress() {
+        return email.address();
+    }
 }
