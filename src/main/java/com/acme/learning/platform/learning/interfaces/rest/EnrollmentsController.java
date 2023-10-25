@@ -1,6 +1,8 @@
 package com.acme.learning.platform.learning.interfaces.rest;
 
+import com.acme.learning.platform.learning.domain.model.commands.CancelEnrollmentCommand;
 import com.acme.learning.platform.learning.domain.model.commands.ConfirmEnrollmentCommand;
+import com.acme.learning.platform.learning.domain.model.commands.RejectEnrollmentCommand;
 import com.acme.learning.platform.learning.domain.model.queries.GetEnrollmentByIdQuery;
 import com.acme.learning.platform.learning.domain.services.EnrollmentCommandService;
 import com.acme.learning.platform.learning.domain.services.EnrollmentQueryService;
@@ -40,5 +42,19 @@ public class EnrollmentsController {
         var command = new ConfirmEnrollmentCommand(enrollmentId);
         var confirmedEnrollmentId = enrollmentCommandService.handle(command);
         return ResponseEntity.ok(confirmedEnrollmentId);
+    }
+
+    @PostMapping("/{enrollmentId}/rejections")
+    public ResponseEntity<?> rejectEnrollment(@PathVariable Long enrollmentId) {
+        var command = new RejectEnrollmentCommand(enrollmentId);
+        var rejectedEnrollmentId = enrollmentCommandService.handle(command);
+        return ResponseEntity.ok(rejectedEnrollmentId);
+    }
+
+    @PostMapping("/enrollments/{enrollmentId}/cancellations")
+    public ResponseEntity<?> cancelEnrollment(@PathVariable Long enrollmentId) {
+        var command = new CancelEnrollmentCommand(enrollmentId);
+        var canceledEnrollmentId = enrollmentCommandService.handle(command);
+        return ResponseEntity.ok(canceledEnrollmentId);
     }
 }
