@@ -1,6 +1,7 @@
 package com.acme.learning.platform.learning.application.internal.queryservices;
 
 import com.acme.learning.platform.learning.domain.model.aggregates.Student;
+import com.acme.learning.platform.learning.domain.model.queries.GetStudentByAcmeStudentRecordIdQuery;
 import com.acme.learning.platform.learning.domain.model.queries.GetStudentByProfileIdQuery;
 import com.acme.learning.platform.learning.domain.services.StudentQueryService;
 import com.acme.learning.platform.learning.infrastructure.persistence.jpa.repositories.StudentRepository;
@@ -19,5 +20,10 @@ public class StudentQueryServiceImpl implements StudentQueryService {
     @Override
     public Optional<Student> handle(GetStudentByProfileIdQuery query) {
         return studentRepository.findByProfileId(query.profileId());
+    }
+
+    @Override
+    public Optional<Student> handle(GetStudentByAcmeStudentRecordIdQuery query) {
+        return studentRepository.findByAcmeStudentRecordId(query.acmeStudentRecordId());
     }
 }
