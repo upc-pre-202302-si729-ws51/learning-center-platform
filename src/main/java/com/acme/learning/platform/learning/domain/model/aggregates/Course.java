@@ -13,20 +13,17 @@ import org.apache.logging.log4j.util.Strings;
  *  Contains a learning path
  */
 @Entity
+@Getter
 public class Course extends AuditableModel {
-    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Getter
     private String title;
 
-    @Getter
     private String description;
 
     @Embedded
-    @Getter
     private final LearningPath learningPath;
 
     /**
