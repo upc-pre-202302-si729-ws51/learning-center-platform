@@ -1,5 +1,8 @@
 package com.acme.learning.platform.profiles.domain.model.valueobjects;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public record StreetAddress(
         String street,
         String number,
