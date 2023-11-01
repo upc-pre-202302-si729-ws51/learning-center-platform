@@ -1,5 +1,6 @@
 package com.acme.learning.platform.profiles.interfaces.rest;
 
+import com.acme.learning.platform.profiles.domain.model.queries.GetAllProfilesQuery;
 import com.acme.learning.platform.profiles.domain.model.queries.GetProfileByIdQuery;
 import com.acme.learning.platform.profiles.domain.services.ProfileCommandService;
 import com.acme.learning.platform.profiles.domain.services.ProfileQueryService;
@@ -13,10 +14,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * ProfilesController
  * <p>
  *     Profile Management Endpoints
+ *     <ul>
+ *         <li>Create a new Profile</li>
+ *         <li>Get Profile by Identifier</li>
+ *         <li>Get all Profiles</li>
  * </p>
  */
 @RestController
@@ -35,6 +42,8 @@ public class ProfilesController {
      * Create a new Profile
      * @param resource Create Profile Resource including the profile data
      * @return Profile Resource if created, otherwise 400
+     * @see ProfileResource
+     * @see CreateProfileResource
      */
     @PostMapping
     public ResponseEntity<ProfileResource> createProfile(@RequestBody CreateProfileResource resource) {
@@ -58,6 +67,7 @@ public class ProfilesController {
      * Get Profile by Identifier
      * @param profileId the given Profile Identifier
      * @return Profile Resource if found, otherwise 404
+     * @see ProfileResource
      */
     @GetMapping("/{profileId}")
     public ResponseEntity<ProfileResource> getProfileById(@PathVariable Long profileId) {
@@ -68,5 +78,18 @@ public class ProfilesController {
         }
         var profileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(profile.get());
         return ResponseEntity.ok(profileResource);
+    }
+
+    /**
+     * Get all Profiles
+     * @return List of Profile Resources currently available
+     * @see ProfileResource
+     */
+    @GetMapping
+    public ResponseEntity<List<ProfileResource>>  getAllProfiles() {
+        var getAllProfilesQuery = new GetAllProfilesQuery();
+        var profiles = profileQueryService.handle(getAllProfilesQuery);
+        var profileResources = profiles.stream().map(ProfileResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(profileResources);
     }
 }
