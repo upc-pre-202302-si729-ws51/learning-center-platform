@@ -48,6 +48,11 @@ public class LearningPath {
         if (originalLastItem != null) originalLastItem.updateNextItem(learningPathItem);
     }
 
+
+    public void addItem(Course course, Tutorial tutorial, Long nextTutorialId) {
+        LearningPathItem nextItem = getLearningPathItemWithTutorialId(nextTutorialId);
+        addItem(course, tutorial, nextItem);
+    }
     public Long getFirstTutorialIdInLearningPath() {
         return learningPathItems.get(0).getTutorial().getId();
     }
