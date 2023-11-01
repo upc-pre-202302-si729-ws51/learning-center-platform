@@ -14,6 +14,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * StudentsController
+ * <p>
+ *     Student Management Endpoints
+ *     <ul>
+ *         <li>Create a new Student</li>
+ *         <li>Get Student by Acme Student Record Id</li>
+ *     </ul>
+ * </p>
+ */
 @RestController
 @RequestMapping(value = "/api/v1/students", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Students", description = "Student Management Endpoints")
@@ -30,6 +40,8 @@ public class StudentsController {
      * Creates a new student
      * @param resource the resource with the student data
      * @return the student resource
+     * @see CreateStudentResource
+     * @see StudentResource
      */
     @PostMapping
     public ResponseEntity<StudentResource> createStudent(@RequestBody CreateStudentResource resource) {
@@ -47,6 +59,7 @@ public class StudentsController {
      * Gets a student by its acme student record id
      * @param studentRecordId the acme student record id
      * @return the student resource for the given record id
+     * @see StudentResource
      */
     @GetMapping("/{studentRecordId}")
     public ResponseEntity<StudentResource> getStudentByAcmeStudentRecordId(@PathVariable String studentRecordId) {

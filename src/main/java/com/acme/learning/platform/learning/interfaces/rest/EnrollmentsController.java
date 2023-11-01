@@ -14,8 +14,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
+/**
+ * EnrollmentsController
+ * <p>
+ *     Enrollment Management Endpoints
+ *     <ul>
+ *         <li>Request Enrollment</li>
+ *         <li>Confirm Enrollment</li>
+ *         <li>Reject Enrollment</li>
+ *         <li>Cancel Enrollment</li>
+ *     </ul>
+ * </p>
+ */
 @RestController
-@RequestMapping("/api/v1/enrollments")
+@RequestMapping(value = "/api/v1/enrollments", produces = APPLICATION_JSON_VALUE)
 public class EnrollmentsController {
     private final EnrollmentCommandService enrollmentCommandService;
     private final EnrollmentQueryService enrollmentQueryService;
@@ -25,6 +39,13 @@ public class EnrollmentsController {
         this.enrollmentQueryService = enrollmentQueryService;
     }
 
+    /**
+     * Request Enrollment
+     * @param resource Request Enrollment Resource including the enrollment data
+     * @return Enrollment Resource if created, otherwise 400
+     * @see EnrollmentResource
+     * @see RequestEnrollmentResource
+     */
     @PostMapping
     public ResponseEntity<EnrollmentResource> requestEnrollment(@RequestBody RequestEnrollmentResource resource) {
         var command = RequestEnrollmentCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -37,6 +58,11 @@ public class EnrollmentsController {
         return new ResponseEntity<>(enrollmentResource, HttpStatus.CREATED);
     }
 
+    /**
+     * Confirm Enrollment
+     * @param enrollmentId the enrollment id
+     * @return Enrollment Identifier if confirmed, otherwise 400
+     */
     @PostMapping("/{enrollmentId}/confirmations")
     public ResponseEntity<?> confirmEnrollment(@PathVariable Long enrollmentId) {
         var command = new ConfirmEnrollmentCommand(enrollmentId);
@@ -44,6 +70,11 @@ public class EnrollmentsController {
         return ResponseEntity.ok(confirmedEnrollmentId);
     }
 
+    /**
+     * Reject Enrollment
+     * @param enrollmentId the enrollment id
+     * @return Enrollment Identifier if rejected, otherwise 400
+     */
     @PostMapping("/{enrollmentId}/rejections")
     public ResponseEntity<?> rejectEnrollment(@PathVariable Long enrollmentId) {
         var command = new RejectEnrollmentCommand(enrollmentId);
@@ -51,6 +82,11 @@ public class EnrollmentsController {
         return ResponseEntity.ok(rejectedEnrollmentId);
     }
 
+    /**
+     * Cancel Enrollment
+     * @param enrollmentId the enrollment id
+     * @return Enrollment Identifier if canceled, otherwise 400
+     */
     @PostMapping("/enrollments/{enrollmentId}/cancellations")
     public ResponseEntity<?> cancelEnrollment(@PathVariable Long enrollmentId) {
         var command = new CancelEnrollmentCommand(enrollmentId);
