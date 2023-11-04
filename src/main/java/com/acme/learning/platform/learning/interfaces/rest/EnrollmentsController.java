@@ -87,7 +87,7 @@ public class EnrollmentsController {
      * @param enrollmentId the enrollment id
      * @return Enrollment Identifier if canceled, otherwise 400
      */
-    @PostMapping("/enrollments/{enrollmentId}/cancellations")
+    @PostMapping("/{enrollmentId}/cancellations")
     public ResponseEntity<?> cancelEnrollment(@PathVariable Long enrollmentId) {
         var command = new CancelEnrollmentCommand(enrollmentId);
         var canceledEnrollmentId = enrollmentCommandService.handle(command);
