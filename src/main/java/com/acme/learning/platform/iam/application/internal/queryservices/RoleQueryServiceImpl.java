@@ -4,6 +4,7 @@ import com.acme.learning.platform.iam.domain.model.entities.Role;
 import com.acme.learning.platform.iam.domain.model.queries.GetAllRolesQuery;
 import com.acme.learning.platform.iam.domain.services.RoleQueryService;
 import com.acme.learning.platform.iam.infrastructure.persistence.jpa.repositories.RoleRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,6 +16,8 @@ import java.util.List;
  * @see RoleQueryService
  * @see RoleRepository
  */
+
+@Service
 public class RoleQueryServiceImpl implements RoleQueryService {
     private final RoleRepository roleRepository;
 
