@@ -3,6 +3,7 @@ package com.acme.learning.platform.iam.domain.services;
 import com.acme.learning.platform.iam.domain.model.aggregates.User;
 import com.acme.learning.platform.iam.domain.model.commands.SignInCommand;
 import com.acme.learning.platform.iam.domain.model.commands.SignUpCommand;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 import java.util.Optional;
 
@@ -31,8 +32,8 @@ public interface UserCommandService {
      *     This method is responsible for handling the sign-in command.
      * </p>
      * @param command The sign-in command.
-     * @return The user aggregate.
+     * @return The user aggregate and the generated token.
      * @see SignInCommand
      */
-    Optional<User> handle(SignInCommand command);
+    Optional<ImmutablePair<User, String>> handle(SignInCommand command);
 }
