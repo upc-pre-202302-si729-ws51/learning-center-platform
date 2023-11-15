@@ -3,6 +3,7 @@ package com.acme.learning.platform.iam.infrastructure.authorization.sfs.configur
 import com.acme.learning.platform.iam.infrastructure.authorization.sfs.pipeline.BearerAuthorizationRequestFilter;
 import com.acme.learning.platform.iam.infrastructure.hashing.bcrypt.BCryptHashingService;
 import com.acme.learning.platform.iam.infrastructure.tokens.jwt.BearerTokenService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,7 +31,7 @@ public class WebSecurityConfiguration {
 
     private final AuthenticationEntryPoint unauthorizedRequestHandler;
 
-    public WebSecurityConfiguration(UserDetailsService userDetailsService, BearerTokenService tokenService, BCryptHashingService hashingService, AuthenticationEntryPoint unauthorizedRequestHandler) {
+    public WebSecurityConfiguration(@Qualifier("defaultUserDetailsService") UserDetailsService userDetailsService, BearerTokenService tokenService, BCryptHashingService hashingService, AuthenticationEntryPoint unauthorizedRequestHandler) {
         this.userDetailsService = userDetailsService;
         this.tokenService = tokenService;
         this.hashingService = hashingService;
@@ -91,7 +92,7 @@ public class WebSecurityConfiguration {
                 .sessionManagement( customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers(
-                                "/api/v1/auth/**",
+                                "/api/v1/authorization/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
