@@ -2,11 +2,13 @@ package com.acme.learning.platform.iam.application.internal.queryservices;
 
 import com.acme.learning.platform.iam.domain.model.aggregates.User;
 import com.acme.learning.platform.iam.domain.model.queries.GetAllUsersQuery;
+import com.acme.learning.platform.iam.domain.model.queries.GetUserByIdQuery;
 import com.acme.learning.platform.iam.domain.services.UserQueryService;
 import com.acme.learning.platform.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * User query service implementation
@@ -25,10 +27,18 @@ public class UserQueryServiceImpl implements UserQueryService {
     }
 
     /**
-     * @InheritDoc
+     * Handle the get all users query
      */
     @Override
     public List<User> handle(GetAllUsersQuery query) {
         return userRepository.findAll();
+    }
+
+    /**
+     * Handle the get user by id query
+     */
+    @Override
+    public Optional<User> handle(GetUserByIdQuery query) {
+        return userRepository.findById(query.userId());
     }
 }
