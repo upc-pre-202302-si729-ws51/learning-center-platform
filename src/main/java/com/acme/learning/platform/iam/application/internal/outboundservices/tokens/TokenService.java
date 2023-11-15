@@ -12,11 +12,11 @@ import org.springframework.security.core.Authentication;
 public interface TokenService {
 
     /**
-     * Generate a token
-     * @param authentication the authentication object
+     * Generate a token for a given username
+     * @param username the username
      * @return the generated token
      */
-    String generateToken(Authentication authentication);
+    String generateToken(String username);
 
     /**
      * Get the username from a token
