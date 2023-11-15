@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -44,9 +45,9 @@ public class User extends AbstractAggregateRoot<User> {
         this.password = password;
     }
 
-    public User(String username, String password, Set<Role> roles) {
+    public User(String username, String password, List<Role> roles) {
         this(username, password);
-        this.roles = roles;
+        addRoles(roles);
     }
 
     /**
@@ -56,6 +57,12 @@ public class User extends AbstractAggregateRoot<User> {
      */
     public User addRole(Role role) {
         this.roles.add(role);
+        return this;
+    }
+
+    public User addRoles(List<Role> roles) {
+        var validatedRoleSet = Role.validateRoleSet(roles);
+        this.roles.addAll(validatedRoleSet);
         return this;
     }
 
