@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.With;
 
+import java.util.List;
+
 /**
  * Role entity
  *
@@ -33,5 +35,42 @@ public class Role {
      */
     public Role(Roles name) {
         this.name = name;
+    }
+
+    /**
+     * Get the role name as a String
+     * @return Role name
+     */
+    public String getStringName() {
+        return name.name();
+    }
+
+    /**
+     * Get the default role as defined in the system
+     * @return Role name
+     */
+    public static Role getDefaultRole() {
+        return new Role(Roles.ROLE_USER);
+    }
+
+    /**
+     * Get the role from a String
+     * @param name Role name
+     * @return Role
+     */
+    public static Role toRoleFromName(String name) {
+        return new Role(Roles.valueOf(name));
+    }
+
+    /**
+     * Validate the role set if it is null or empty
+     * @param roles Role set
+     * @return Role set
+     */
+    public static List<Role> validateRoleSet(List<Role> roles) {
+        if (roles == null || roles.isEmpty()) {
+            return List.of(getDefaultRole());
+        }
+        return roles;
     }
 }
