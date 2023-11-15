@@ -22,6 +22,7 @@ import java.util.List;
 @With
 @Entity
 public class Role {
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
